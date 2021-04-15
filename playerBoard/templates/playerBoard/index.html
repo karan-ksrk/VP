@@ -8,32 +8,34 @@
     <title>Virtual Party</title>
     <link rel="stylesheet" href="{% static 'playerBoard/css/style.css' %}" />
   </head>
-  <body>
-    <div class="container">
-        <h1 class="heading">Dashboard</h1>
+<body>
+  <div class="container">
+    <h1 class="heading">Dashboard</h1>
 
-        <form class="form" action="/" method="post">
-        {% csrf_token %}
-        <div class="nameInput-container">
-            {{form.name}} 
-            <input class="add" type="submit" name="addPerson" value="add"/>
-        </div>
-  
-        
-            <div class="players">
-                {% for player in players %}
-                <div class="player">
-                    <p class="name">{{ player.name }}</p>
+    <form class="form" action="/" method="post">
+      {% csrf_token %}
+      <div class="nameInput-container">
+          {{form.name}} 
+          <input class="add" type="submit" name="addPerson" value="add"/>
+      </div>
+    </form>
 
-                    <a class="update" href="{% url 'update_player' player.id %}">update</a>
+    <div class="players">
+        {% for player in players %}
+        <div class="player">
+            <p class="name">{{ player.name }}</p>
 
-                    {% csrf_token %}
-                    <input type="hidden" name="playerID" value="{{player.id}}" />
-                    <input class="delete" type="submit" value="remove" name="deletePerson" />
-                </div>
-                {% endfor %}
-            </div>
-        </form>
+            <a class="update" href="{% url 'update_player' player.id %}">update</a>
+
+            <form action="/" method="post">
+              <input type="hidden" name="playerID" value="{{player.id}}" />
+            
+              {% csrf_token %}
+              <input class="delete" type="submit" value="remove" name="deletePerson" />
+            </form>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </body>
 </html>
