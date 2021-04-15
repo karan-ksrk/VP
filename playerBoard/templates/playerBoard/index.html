@@ -1,22 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Virtual Party</title>
-</head>
-<body>
-    <h1>Dashboard</h1>
+    <link rel="stylesheet" href="{% static 'playerBoard/css/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+        <h1 class="heading">Dashboard</h1>
 
-    <form action="/" method="post">
-
-        {{form.name}}
+        <form class="form" action="/" method="post">
         {% csrf_token %}
-        <input type="submit" name="name " id="">
-    </form>
-    {% for player in players %}
-        <p>{{ player.name }}</p>
-    {% endfor %}
-</body>
+        <div class="nameInput-container">
+            {{form.name}} 
+            <input class="add" type="submit" name="addPerson" value="add"/>
+        </div>
+  
+        
+            <div class="players">
+                {% for player in players %}
+                <div class="player">
+                    <p class="name">{{ player.name }}</p>
+
+                    <a class="update" href="{% url 'update_player' player.id %}">update</a>
+
+                    {% csrf_token %}
+                    <input type="hidden" name="playerID" value="{{player.id}}" />
+                    <input class="delete" type="submit" value="remove" name="deletePerson" />
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+  </body>
 </html>
